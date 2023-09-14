@@ -1,0 +1,369 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "APIs to manage sopping cart.",
+        "title": "Shopping Cart API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/product": {
+            "post": {
+                "description": "Add product to shopping cart",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Adds products to shopping cart",
+                "parameters": [
+                    {
+                        "description": "shopping cart info",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ProductReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/{productId}": {
+            "delete": {
+                "description": "Delete products in shopping cart",
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete shopping cart products by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "product ID",
+                        "name": "productId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Accepted"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update product quatity in shopping cart",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update shopping cart products",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Product ID",
+                        "name": "productId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Product quantity request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ProductQuantity"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Accepted"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/{shoppingCartId}": {
+            "get": {
+                "description": "List products in shopping cart",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get shopping cart products",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "shopping cart ID",
+                        "name": "shoppingCartId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Accepted",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ProductResp"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError"
+                        }
+                    }
+                }
+            }
+        },
+        "/shopping-cart": {
+            "post": {
+                "description": "Create a new Shopping Cart",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Shopping Cart"
+                ],
+                "summary": "Creates Shopping Cart",
+                "parameters": [
+                    {
+                        "description": "shopping cart info",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ShoppingCartRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError"
+                        }
+                    }
+                }
+            }
+        },
+        "/shopping-cart/{id}": {
+            "get": {
+                "description": "Returns a Shopping Cart",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Shopping Cart"
+                ],
+                "summary": "Get User Shopping Cart",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ShoppingCartResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ProductQuantity": {
+            "type": "object",
+            "properties": {
+                "quantity": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ProductReq": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "shoppingCartId": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ProductResp": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "shoppingCartId": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ShoppingCartRequest": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ShoppingCartResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError": {
+            "type": "object",
+            "properties": {
+                "error": {},
+                "msg": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

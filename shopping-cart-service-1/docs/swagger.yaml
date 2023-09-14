@@ -1,0 +1,243 @@
+basePath: /api/v1
+definitions:
+  github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ProductQuantity:
+    properties:
+      quantity:
+        type: integer
+    type: object
+  github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ProductReq:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      quantity:
+        type: integer
+      shoppingCartId:
+        type: string
+    type: object
+  github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ProductResp:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      quantity:
+        type: integer
+      shoppingCartId:
+        type: string
+    type: object
+  github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ShoppingCartRequest:
+    properties:
+      user_id:
+        type: string
+    type: object
+  github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ShoppingCartResponse:
+    properties:
+      id:
+        type: string
+      user_id:
+        type: string
+    type: object
+  github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError:
+    properties:
+      error: {}
+      msg:
+        type: string
+      status:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: APIs to manage sopping cart.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Shopping Cart API
+  version: "1.0"
+paths:
+  /product:
+    post:
+      consumes:
+      - application/json
+      description: Add product to shopping cart
+      parameters:
+      - description: shopping cart info
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ProductReq'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError'
+      summary: Adds products to shopping cart
+      tags:
+      - Products
+  /product/{productId}:
+    delete:
+      description: Delete products in shopping cart
+      parameters:
+      - description: product ID
+        in: path
+        name: productId
+        required: true
+        type: string
+      responses:
+        "202":
+          description: Accepted
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError'
+      summary: Delete shopping cart products by ID
+      tags:
+      - Products
+    patch:
+      consumes:
+      - application/json
+      description: Update product quatity in shopping cart
+      parameters:
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: string
+      - description: Product quantity request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ProductQuantity'
+      responses:
+        "202":
+          description: Accepted
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError'
+      summary: Update shopping cart products
+      tags:
+      - Products
+  /product/{shoppingCartId}:
+    get:
+      description: List products in shopping cart
+      parameters:
+      - description: shopping cart ID
+        in: path
+        name: shoppingCartId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            items:
+              $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ProductResp'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError'
+      summary: Get shopping cart products
+      tags:
+      - Products
+  /shopping-cart:
+    post:
+      consumes:
+      - application/json
+      description: Create a new Shopping Cart
+      parameters:
+      - description: shopping cart info
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ShoppingCartRequest'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError'
+      summary: Creates Shopping Cart
+      tags:
+      - Shopping Cart
+  /shopping-cart/{id}:
+    get:
+      description: Returns a Shopping Cart
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_app_api_dto.ShoppingCartResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_go-microservices_shopping-cart-service_internal_shared_error.TemplateError'
+      summary: Get User Shopping Cart
+      tags:
+      - Shopping Cart
+swagger: "2.0"
